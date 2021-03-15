@@ -18,7 +18,6 @@ namespace MarsRover.Models.Abstract
         {
             PlatoMap = map;
         }
-
         public void ExecuteCommand()
         {
             var commands = this.MoveCommandString.ToCharArray();
@@ -63,7 +62,6 @@ namespace MarsRover.Models.Abstract
             
             if(isMoveSuccess) { Console.WriteLine($"[ {PosX} , {PosY}] koordinatları keşfedildi."); }
         }
-
         public bool MoveNorth()
         {
             if ((PosY + 1) <= PlatoMap.MaxY) { PosY += 1; return true; }
