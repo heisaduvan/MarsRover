@@ -43,44 +43,32 @@ namespace MarsRover.Models.Abstract
         }
         public void Move()
         {
-            bool isMoveSuccess = false;
             switch (RoverDirection)
             {
                 case Direction.N:
-                    isMoveSuccess = MoveNorth();
+                    PosY = IsMoveValid(PosX, PosY + 1) ? PosY + 1 : PosY;
                     break;
                 case Direction.W:
-                    isMoveSuccess = MoveWest();
+                    PosX = IsMoveValid(PosX-1, PosY) ? PosX- + 1 : PosX;
                     break;
                 case Direction.S:
-                    isMoveSuccess = MoveSouth();
+                    PosY = IsMoveValid(PosX, PosY - 1) ? PosY - 1 : PosY;
                     break;
                 case Direction.E:
-                    isMoveSuccess = MoveEast();
+                    PosX = IsMoveValid(PosX + 1, PosY) ? PosX + 1 : PosX;
                     break;
             }
-            
-            if(isMoveSuccess) { Console.WriteLine($"[ {PosX} , {PosY}] koordinatları keşfedildi."); }
         }
-        public bool MoveNorth()
+        public bool IsMoveValid(int newX, int newY)
         {
-            if ((PosY + 1) <= PlatoMap.MaxY) { PosY += 1; return true; }
-            else { Console.WriteLine($"*Error : Rover harita sınırları dışına çıkamaz. [ {PosX} , {PosY + 1}] noktası geçersiz."); return false; }
-        }
-        public bool MoveWest()
-        {
-            if ((PosX - 1) >= 0) { PosX -= 1; return true; }
-            else { Console.WriteLine($"Error : Rover harita sınırları dışına çıkamaz. [ {PosX - 1} , {PosY}] noktası geçersiz."); return false; }
-        }
-        public bool MoveSouth()
-        {
-            if ((PosY - 1) >= 0) { PosY -= 1; return true; }
-            else { Console.WriteLine($"Error : Rover harita sınırları dışına çıkamaz. [ {PosX} , {PosY - 1}] noktası geçersiz."); return false; }
-        }
-        public bool MoveEast()
-        {
-            if ((PosX + 1) <= PlatoMap.MaxX) { PosX += 1; return true; }
-            else { Console.WriteLine($"Error : Rover harita sınırları dışına çıkamaz. [ {PosX + 1} , {PosY}] noktası geçersiz."); return false; }
+            bool result = (newX >= 0 && newX <= PlatoMap.MaxX) && (newY >= 0 && newY <= PlatoMap.MaxY);
+
+            if(!result)
+            {
+                Console.WriteLine($"Error : Rover harita sınırları dışına çıkamaz. [ {newX} , {newY}] noktası geçersiz.");
+            }
+
+            return result;
         }
         public void TurnLeft()
         {
@@ -96,7 +84,6 @@ namespace MarsRover.Models.Abstract
             if (RoverDirection == Direction.S) { RoverDirection = Direction.W; return; }
             if (RoverDirection == Direction.W) { RoverDirection = Direction.N; return; }
         }
-
         public override string ToString()
         {
             return $"Roverın Koordinatları [ {PosX} , {PosY} ] {RoverDirection}";
