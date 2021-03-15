@@ -13,18 +13,18 @@ namespace MarsRover
         private static List<BaseRover> rovers = new List<BaseRover>();
         private static IMap map;
 
-        public MarsRover()
+        public MarsRover(IMap _map)
         {
-            map = new Map(); 
+            map = _map;
         }
 
-        static void Main(string[] args)
+        public void Execute()
         {
             GetMapCoords();
 
             GetRoverCoords();
 
-            foreach(var rover in rovers)
+            foreach (var rover in rovers)
             {
                 rover.ExecuteCommand();
                 Console.WriteLine(rover.ToString());
@@ -33,7 +33,7 @@ namespace MarsRover
             Console.ReadLine();
         }
 
-        private static void GetMapCoords()
+        private void GetMapCoords()
         {
             Console.Write("Haritanın sağ üst köşesinin koordinatlarını giriniz. [ X Y ] = ");
             if (InputValidator.CheckMapCoords(Console.ReadLine(), out int upperRightX, out int upperRightY))
@@ -46,7 +46,7 @@ namespace MarsRover
             GetMapCoords();
         }
 
-        private static void GetRoverCoords()
+        private void GetRoverCoords()
         {
             Console.Write("Roverın koordinatlarını ve yönünü giriniz. [ X Y N,W,S,E ] = ");
             if (InputValidator.CheckRoverCoordsAndDirection(Console.ReadLine(), out int x, out int y, out Direction _direction))
@@ -71,7 +71,7 @@ namespace MarsRover
             GetRoverCoords();
         }
 
-        private static void GetRoverCommand(BaseRover rover)
+        private void GetRoverCommand(BaseRover rover)
         {
             Console.Write("Koordinatlarını girdiğiniz rover için hareket komutlarını giriniz. [L R M] = ");
             var commands = Console.ReadLine();
